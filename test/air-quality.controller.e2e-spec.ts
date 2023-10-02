@@ -1,16 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AirQualityModule } from './air-quality.module';
-import { ParisCoordinates } from '../utilities/enums/ParisCoordinates';
-import { IqProviderAdapter } from '../providers/iq-provider.adapter';
+import { AirQualityModule } from '../src/air-quality/air-quality.module';
+import { ParisCoordinates } from '../src/utilities/enums/ParisCoordinates';
+import { IqProviderAdapter } from '../src/providers/iq-provider.adapter';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AirQuality } from '../src/air-quality/entities/air-quality.entity';
 
 describe('AirQualityControllerE2E', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AirQualityModule],
+      imports: [AirQualityModule, TypeOrmModule.forFeature([AirQuality])],
     }).compile();
 
     app = moduleFixture.createNestApplication();
